@@ -1,19 +1,36 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from "../views/Login.vue"
+import Inscription from "../views/Inscription.vue"
+import Taches from "../views/Taches.vue"
+import MonCompte from "../views/MonCompte.vue"
+import Deco from "../views/Deco.vue"
+
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Login',
+    component: Login
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/inscription',
+    name: 'Inscription',
+    component: Inscription
+  },
+  {
+    path: '/taches',
+    name: 'Taches',
+    component: Taches
+  },
+  {
+    path: '/mon-compte',
+    name: 'Mon compte',
+    component: MonCompte
+  },
+  {
+    path: '/deco',
+    name: 'Deco',
+    component: Deco
   }
 ]
 
