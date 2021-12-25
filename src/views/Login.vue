@@ -26,6 +26,32 @@ export default defineComponent({
     sendForm(e: SubmitEvent) {
       e.preventDefault();
       console.log(this.$data.login, this.$data.mdp);
+      fetch("https://trello.jdedev.fr/api/user/connect", {
+        method: "POST",
+        body: JSON.stringify({
+          nom: this.$data.login,
+          mdp: this.$data.mdp,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then(function (response) {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+        })
+        .then(function (data) {
+          if (data.mess) {
+            alert(data.mess);
+          } else {
+            console.log(data);
+          }
+        })
+        .catch(function (error) {
+          console.warn("Something went wrong.", error);
+        });
     },
   },
 });
