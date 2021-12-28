@@ -4,7 +4,7 @@ import Inscription from "../views/Inscription.vue"
 import Taches from "../views/Taches.vue"
 import MonCompte from "../views/MonCompte.vue"
 import Deco from "../views/Deco.vue"
-
+import store from "@/store";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,17 +20,41 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/taches',
     name: 'Taches',
-    component: Taches
+    component: Taches,
+    beforeEnter: () => {
+      if (store.state.id === "") {
+        router.push("/")
+      }
+      else {
+        return true
+      }
+    }
   },
   {
     path: '/mon-compte',
     name: 'Mon compte',
-    component: MonCompte
+    component: MonCompte,
+    beforeEnter: () => {
+      if (store.state.id === "") {
+        router.push("/")
+      }
+      else {
+        return true
+      }
+    }
   },
   {
     path: '/deco',
     name: 'Deco',
-    component: Deco
+    component: Deco,
+    beforeEnter: () => {
+      if (store.state.id === "") {
+        router.push("/")
+      }
+      else {
+        return true
+      }
+    }
   }
 ]
 

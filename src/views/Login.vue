@@ -7,7 +7,9 @@
 </template>
 
 <script lang="ts">
+import router from "@/router";
 import { defineComponent } from "vue";
+import { mapActions } from "vuex";
 interface SubmitEvent extends Event {
   /**
    * Returns the element representing the submit button that triggered the form submission, or null if the submission was not triggered by a button.
@@ -23,6 +25,7 @@ export default defineComponent({
     };
   },
   methods: {
+    ...mapActions(["connect"]),
     sendForm(e: SubmitEvent) {
       e.preventDefault();
       console.log(this.$data.login, this.$data.mdp);
@@ -36,20 +39,22 @@ export default defineComponent({
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then(function (response) {
+        .then((response) => {
           if (response.ok) {
             return response.json();
           }
           return Promise.reject(response);
         })
-        .then(function (data) {
+        .then((data) => {
           if (data.mess) {
             alert(data.mess);
           } else {
             console.log(data);
+            this.connect(data._id);
+            router.push("/taches");
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.warn("Something went wrong.", error);
         });
     },

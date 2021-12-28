@@ -2,14 +2,48 @@
   <header :class="$style.header">
     <h1>Kanban Vue</h1>
     <nav>
-      <router-link to="/">Login</router-link>
-      <router-link to="/inscription">Inscription</router-link>
-      <router-link to="/taches">Taches</router-link>
-      <router-link to="/mon-compte">Mon Compte</router-link>
-      <router-link to="/deco">Deconnexion</router-link>
+      <router-link
+        v-for="(lien, index) in getLiens()"
+        :key="index"
+        :to="lien.ref"
+        >{{ lien.nom }}</router-link
+      >
     </nav>
   </header>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { mapState } from "vuex";
+
+export default defineComponent({
+  computed: {
+    ...mapState(["id"]),
+  },
+  methods: {
+    getLiens(): Lien[] {
+      if (this.id === "") {
+        return [
+          { ref: "/", nom: "Login" },
+          { ref: "/inscription", nom: "Inscription" },
+        ];
+      } else {
+        return [
+          { ref: "/taches", nom: "Taches" },
+          { ref: "/mon-compte", nom: "Mon Compte" },
+          { ref: "/deco", nom: "Deconnexion" },
+        ];
+      }
+    },
+  },
+});
+
+interface Lien {
+  ref: string;
+  nom: string;
+}
+</script>
+
 
 <style module>
 .header {

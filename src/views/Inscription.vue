@@ -4,7 +4,7 @@
     <input type="text" placeholder="Email" v-model="email" />
     <input type="password" placeholder="Mot de passe" v-model="mdp" />
     <input type="password" placeholder="Mot de passe" v-model="confirm" />
-    <input type="submit" value="Connexion" />
+    <input type="submit" value="Inscription" />
   </form>
 </template>
 

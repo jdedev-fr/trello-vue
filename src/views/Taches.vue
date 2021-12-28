@@ -1,31 +1,49 @@
 <template>
   <div :class="$style.contener">
     <section>
-      <h2>A Faire</h2>
-      <Tache
-        v-for="task in getAFaire"
-        :key="task._id"
-        :tache="JSON.stringify(task)"
-        type="0"
-      ></Tache>
+      <h2>
+        A Faire
+        <a
+          href="#"
+          @click="
+            (e) => {
+              e.preventDefault();
+              ajoutTache();
+            }
+          "
+          >+</a
+        >
+      </h2>
+      <div v-for="task in getAFaire" :key="task._id">
+        <Tache
+          :tache="JSON.stringify(task)"
+          type="0"
+          v-if="task.edit != true"
+        ></Tache>
+        <TacheEdit :tache="JSON.stringify(task)" type="0" v-else></TacheEdit>
+      </div>
     </section>
     <section>
       <h2>En cours</h2>
-      <Tache
-        v-for="task in getEnCours"
-        :key="task._id"
-        :tache="JSON.stringify(task)"
-        type="1"
-      ></Tache>
+      <div v-for="task in getEnCours" :key="task._id">
+        <Tache
+          :tache="JSON.stringify(task)"
+          type="1"
+          v-if="task.edit != true"
+        ></Tache>
+        <TacheEdit :tache="JSON.stringify(task)" type="1" v-else></TacheEdit>
+      </div>
     </section>
     <section>
       <h2>Terminé</h2>
-      <Tache
-        v-for="task in getTermine"
-        :key="task._id"
-        :tache="JSON.stringify(task)"
-        type="2"
-      ></Tache>
+      <div v-for="task in getTermine" :key="task._id">
+        <Tache
+          :tache="JSON.stringify(task)"
+          type="2"
+          v-if="task.edit != true"
+        ></Tache>
+        <TacheEdit :tache="JSON.stringify(task)" type="2" v-else></TacheEdit>
+      </div>
     </section>
   </div>
 </template>
@@ -54,11 +72,13 @@
 <script lang="ts">
 import store from "@/store";
 import { defineComponent } from "vue";
+import { mapActions } from "vuex";
 import Tache from "../components/Tache.vue";
+import TacheEdit from "../components/TacheEdit.vue";
 
 export default defineComponent({
   name: "Taches",
-  components: { Tache },
+  components: { Tache, TacheEdit },
   computed: {
     getAFaire() {
       return store.state.tasks.filter((elem) => elem.state === 0);
@@ -69,6 +89,12 @@ export default defineComponent({
     getTermine() {
       return store.state.tasks.filter((elem) => elem.state === 2);
     },
+  },
+  methods: {
+    ...mapActions(["ajoutTache", "recupAllFromApi"]),
+  },
+  mounted() {
+    store.dispatch("recupAllFromApi");
   },
 });
 </script>
